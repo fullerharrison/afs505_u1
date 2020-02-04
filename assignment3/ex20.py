@@ -7,6 +7,7 @@ def print_all(f):
     print(f.read())
 
 # reverse the text of outputed file and move to position 0 or firsdt position
+# Looks at bytes not rows
 def rewind(f):
     f.seek(0)
 # function for printting a line
@@ -24,12 +25,12 @@ print("Now let's rewind, kind of like a tape.")
 rewind(current_file)
 
 print("Let's print three lines:")
-# prints second line
+# prints first line
 current_line = 1
 print_a_line(current_line, current_file)
-# prints third line
+# prints second line
 current_line += 1
 print_a_line(current_line, current_file)
-# prints 4th  line
+# prints third line
 current_line += 1
 print_a_line(current_line, current_file)
