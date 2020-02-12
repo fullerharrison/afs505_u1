@@ -1,25 +1,13 @@
-"""A Python script that performs Conway's game of life in a 80x30 array
-
-.. Module:: Project01
-    :platform macOS
-        :synopsis: The script will recieve user derections to turn
-        'on' or 'off' cells in a gris using Moores neighborhood rules
-        then print the evolution by 'ticks' also recieved by the user_
-
-.. moduleauthor:: Harrison Fuller <harrison.fuller@wsu.edu>
-
-"""
-
 class Game(object):
 
-    def __init__(self, state, board):
+    def __init__(self, state, infinite_board = True):
 
         self.state = state
         self.width = state.width
         self.height = state.height
-        self.board = game_board
+        self.infinite_board = infinite_board
 
-    def step(self, count = 50):
+    def step(self, count = 1):
 
         for generation in range(count):
 
@@ -40,7 +28,7 @@ class Game(object):
 
         for hor in [-1, 0, 1]:
             for ver in [-1, 0, 1]:
-                if not hor == ver == 0 and (self.game_board == True or (0 <= x + hor < self.width and 0 <= y + ver < self.height)):
+                if not hor == ver == 0 and (self.infinite_board == True or (0 <= x + hor < self.width and 0 <= y + ver < self.height)):
                     count += self.state.board[(y + ver) % self.height][(x + hor) % self.width]
 
         return count
@@ -75,9 +63,9 @@ class State(object):
         for y, row in enumerate(self.board):
             for x, cell in enumerate(row):
                 if self.board[y][x]:
-                    output += 'X'
+                    output += ' o'
                 else:
-                    output += '-'
+                    output += ' .'
             output += '\n'
 
         return output
@@ -87,6 +75,6 @@ glider = """ oo.
              o.. """
 
 my_game = Game(State(glider, x = 2, y = 3, width = 10, height = 10))
-print (my_game.display())
+print my_game.display()
 my_game.step(27)
-print (my_game.display())
+print my_game.display() 

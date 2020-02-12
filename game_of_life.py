@@ -31,21 +31,23 @@ def display(row, column):
     b = 80 # number of columns
     a = 30  # number of rows
     print(row)  # check
-"""
+
     board = [[off] * b for i in range(a)]   # make board dimensions
     c = enumerate(board)
 
-    for x, rows in c:
-        print(c)
-        for y, columns in enumerate(rows):
-            if board[x][y]### What to do:
-                output += on
-                pass
+    for x, y in c:
+        for m,n in enumerate(y):
+            if board[x][m]:
+                for i in row:
+                    if i == board[x][m]:
+
+                        output += on
+                        pass
             else:
                 output += off
         output += '\n'
     print(output)
-"""
+
 def initiate(*argv):
     """
     Prompt logistics for game.
