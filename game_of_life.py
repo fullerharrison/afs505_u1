@@ -1,18 +1,69 @@
-"""A Python script that performs Conway's game of life in a 80x30 array
+"""
+Authors: Harrison Fuller
+Reviewer: Joshua Freimark
+Program synopsis: This program implements Conway's Game of Life. This program will displays the evolution of cells
+on a 30 row by 80 column grid. The user will input how many ticks/generation it wishes the game to run for as
+ well as which cells it wishes to be "alive" at the start of the game. Once the the user inputs the values correctly,
+ The game will run on its own. The rules and explanation of the functions will be included as you progress through
+ this script.
 
+A Python script that performs Conway's game of life in a 80x30 array
 .. Module:: Project01
     :platform macOS
         :synopsis: The script will recieve user derections to turn
         'on' or 'off' cells in a gris using Moores neighborhood rules
         then print the evolution by 'ticks' also recieved by the user_
-
 .. moduleauthor:: Harrison Fuller <harrison.fuller@wsu.edu>
-
+.. moduleauthor:: Joshua Freimark
 """
 # allow for input from terminal
 from sys import argv
 
-def display(row, column):
+def neighbor(new_grid,rows, cols):
+    #print(row, col)
+    for i in range(rows):
+        for j in range(cols):
+            on_count = (new_grid[i-1][j-1]+ new_grid[i-1][j] + new_grid[i-1][j+1] +
+                        new_grid[i][j -1] + new_grid[i][j+1]+
+                        new_grid[i+1][j-1] + new_grid[i +1][j] + new_grid[i +1][j+1])
+    print(on_count)
+
+    """
+    n = [[rows - 1] [cols -1], [rows - 1] [cols],  [rows -1] [cols+1],
+        [rows] [cols -1],      [rows * 0] [cols * 0], [rows] [cols+1],
+        [rows + 1] [cols -1], [rows + 1 ] [cols], [rows + 1] [cols+1]]
+    for i, o in enumerate(n):
+        for j, k in enumerate(o):
+            s += new_grid[i][j]
+        print(s)
+    """
+    return on_count
+def next_move(new_grid):
+    ##
+    for row_index,row in enumerate(new_grid): #
+        for column_index, cell in enumerate(row): #
+            # If alive already
+            if new_grid[row_index][column_index] == 1:
+                    on_count = neighbor(new_grid,row_index, column_index)
+                    if on_count > 3:
+                        print(on_count)
+                        pass
+                        new_grid[row_index][column_index] = 0
+                    elif on_count < 2:
+                        print(on_count)
+                        new_grid[row_index][column_index] = 0
+                        pass
+                    else:
+                        new_grid[row_index][column_index] = 1
+                        print(on_count)
+            #print(new_grid)
+                #number = sum(new_grid[r][c])
+                #print(r,c)
+                #print(r,c)
+                #if sum(new_grid[row][col]) < 2: # enumerate()
+                #    new_grid[row_index][column_index] = 0
+#    return neighbor
+def display(new_grid):
     """Build a display to be printed for game.
     Uses variables to be the 'characters' -/X and passes on
     to next function for processsing.
@@ -23,32 +74,13 @@ def display(row, column):
     :return: a array to be printed or processed
     :rtype: a list seperated /n
     """
-    #prints 80 x 30 'X'
+    output = ""
+    for row in new_grid:
+        for column in row:
+            output += column
+        output += "\n"
 
-    output = '' # empty string for print later
-    off = '-'   # off character
-    on = str('X') # on character
-    b = 80 # number of columns
-    a = 30  # number of rows
-    print(row)  # check
-
-    board = [[off] * b for i in range(a)]   # make board dimensions
-    c = enumerate(board)
-
-    for x, y in c:
-        for m,n in enumerate(y):
-            if board[x][m]:
-                for i in row:
-                    if i == board[x][m]:
-
-                        output += on
-                        pass
-            else:
-                output += off
-        output += '\n'
-    print(output)
-
-def initiate(*argv):
+def initiate(empty_grid, *argv):
     """
     Prompt logistics for game.
     Uses variables to identify iterations and partitions arguemts into row
@@ -61,27 +93,19 @@ def initiate(*argv):
 
     :return iterations: variable to identify loops later
     :rtype: a integer
-
     """
     iterations = argv[1]    # number of "steps" or iterations
-    arguement_num = len(argv[2:]) # number of plot directions
-    directions = argv[2:] # list of plot directions
-    row = [] # empty list for rows
-    column = [] # empty list for column
+    coords = argv[2:] # list of plot directions
+    new_grid = empty_grid
+    for item in coords:
+        row, col = item.split(":")
+        new_grid[int(row)-1][int(col)-1] = 1
+    next_move(new_grid)
 
-    # Builds row and column lists
-    # Assuming orientation from the terminal is correct
-    for i in range(arguement_num):
-        position = directions[i]
-        position = position.split(":")
-        row.append(position[0])
-        column.append(position[1])
-    # pass arguements to make beggining display
-    display(row,column)
+def main(*argv):
+    empty_grid = [[0] * 80 for i in range(30)] # makes grid
+    #print(empty_grid)
+    initiate(empty_grid, *argv)
 
-    # for use later?
-    return iterations
-
-
-initiate(*argv)
+main(*argv)
 #50 14:40 15:42 16:39 16:40 16:43 16:44 16:45
