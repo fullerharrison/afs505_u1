@@ -6,7 +6,6 @@ on a 30 row by 80 column grid. The user will input how many ticks/generation it 
  well as which cells it wishes to be "alive" at the start of the game. Once the the user inputs the values correctly,
  The game will run on its own. The rules and explanation of the functions will be included as you progress through
  this script.
-
 A Python script that performs Conway's game of life in a 80x30 array
 .. Module:: Project01
     :platform macOS
@@ -19,88 +18,105 @@ A Python script that performs Conway's game of life in a 80x30 array
 # allow for input from terminal
 from sys import argv
 
-def neighbor(new_grid,rows, cols):
-    #print(row, col)
-    for i in range(rows):
-        for j in range(cols):
-            on_count = (new_grid[i-1][j-1] + new_grid[i-1][j] + new_grid[i-1][j+1] + new_grid[i][j -1] + new_grid[i][j+1] + new_grid[i+1][j-1] + new_grid[i +1][j] + new_grid[i +1][j+1])
+def neighbors(grid, row, cell):
+    """
+    Calculate the sum of the neighbors of element being evaluated
+    :param row, cell: arguements for cells active
+    :type integers: a integer object from grid
+
+    :return: the sum of neighbors to make decision
+    :rtype: integer
+    """
+    on_count = (grid[row-1][cell-1] + grid[row-1][cell] + grid[row-1][cell+1] +
+        grid[row][cell-1] + (grid[row][cell]*0)+ grid[row][cell+1] +
+        grid[row+1][cell-1] + grid[row +1][cell] + grid[row +1][cell+1])
     return on_count
 
-def next_move(new_grid):
-    ##
-    for row_index,row in enumerate(new_grid): #
-        for column_index, cell in enumerate(row): #
-            count = neighbor(new_grid,row_index, column_index)
-            on_count = 0
-            # If alive already
-            if new_grid[row_index][column_index] == 1:
-                on_count += 1
-                if on_count > 3:
-                    new_grid[row_index][column_index] = 0
-                elif on_count < 2:
-                    new_grid[row_index][column_index] = 0
-                else:
-                    new_grid[row_index][column_index] = 1
-            elif new_grid[row_index][column_index] == 0:
-                on_count += 1
+def make_move( grid, nrows, ncols):
+    """
+    Function iterates over grid and evaluates the neigbors of '0'/'1' values
+    :param grid,row, cell: arguements for iterating over grid
+    :type lists, integers: Array of lists, and integer object from grid
+
+    :return: the new grid
+    :rtype: Array/2-d list
+    """
+    new_grid = [[0] * ncols for i in range(nrows)]  # For new grid to post decisions
+    for row in range(nrows-1):
+        for cell in range(ncols-1):
+            on_count = neighbors(grid, row, cell)
+            if grid[row][cell] == 1: # If cells alive
+                if (on_count == 2) or (on_count == 3):
+                    new_grid[row][cell] = 1 # b. Any “on” cell with two or three “on” neighbors remains “on”.
+                else: # c. Any “on” cell with more than three “on” neighbors is turned “off”.
+                      # a. Any “on” cell with fewer than two live neighbors is turned “off”.
+                      new_grid[row][cell] = 0
+
+            elif grid[row][cell] == 0:  # If cells dead
                 if on_count == 3:
-                    new_grid[row_index][column_index] = 1
+                    new_grid[row][cell] = 1 # d. Any “off” cell with exactly three live neighbors is turned “on”.
                 else:
-                    new_grid[row_index][column_index] = 0
-            return new_grid
-    print(new_grid)
-#    return neighbor
-def display(new_grid):
-    """Build a display to be printed for game.
-    Uses variables to be the 'characters' -/X and passes on
-    to next function for processsing.
+                    new_grid[row][cell] = 0
 
-    :param row, column: arguements for cells active
-    :type row: a integer object created by the user
-
-    :return: a array to be printed or processed
-    :rtype: a list seperated /n
+    return new_grid
+def initiate(coordinates, grid, nrows, ncols):
     """
-    output = ""
-    for row in new_grid:
-        for column in row:
-            output += column
-        output += "\n"
+    Function iterates over grid and implements starting coordinates
+    :param coordinates,grid, nrows, ncells: arguements for: 'Alive' cells, and iterating over grid
+    :type lists, lists, integers:List of integers, 2-d lists, and integer object from grid
 
-def initiate(empty_grid, *argv):
+    :return: the new grid
+    :rtype: Array/2-d list
     """
-    Prompt logistics for game.
-    Uses variables to identify iterations and partitions arguemts into row
-    and column coordinates.
-    Passes string lists of row, column into display for game.
-    to next function for processsing.
 
-    :param *argv: arguements for cells to start as active
-    :type *argv: tuple that is prompted by user at terminal
-
-    :return iterations: variable to identify loops later
-    :rtype: a integer
-    """
-    iterations = argv[1]    # number of "steps" or iterations
-    coords = argv[2:] # list of plot directions
-    new_grid = empty_grid
-    for item in coords:
+    for item in coordinates:
         row, col = item.split(":")
-        new_grid[int(row)-1][int(col)-1] = 1
-    next_move(new_grid)
+        grid[int(row)][int(col)] = 1
+    #make_move(grid, nrows, ncols)
+
+def print_grid(grid, nrows, ncols):
+    """
+    Function makes grid of '-'/'X' for alive/dead cells
+    :param grid, nrows, ncells: arguements for: making dimensions of 2-d structure and
+    :type lists, integers: 2-d lists, and integer object from grid
+
+    :return: the new grid
+    :rtype: Array/2-d list
+    """
+    string_grid = ""    # empty string for terminal output
+    for row in range(nrows-1) :
+        for cell in range(ncols-1):
+            if grid[row][cell] == 0:
+                string_grid += '-' # every 0 int is replaced with '-' character
+            elif grid[row][cell] == 1:
+                string_grid += 'X' # every 1 int is replaced with 'X' character
+        string_grid += '\n' # Indicates the end of the list
+    print(string_grid)
+    #initiate(coordinates, grid, nrows, ncols)
 
 def main(*argv):
-    empty_grid = [[0] * 80 for i in range(30)] # makes grid
-    initiate(empty_grid, *argv)
+    """
+    Function extracts command from terminal and prompts parsing
+    :param *argv: arguements for: all arguements from terminal
+    :type lists: list of all arguements
+
+    :return: the final string grid
+    :rtype: string of '-'/'X'
+    """
+    nrows = 31  # dimensions greater than needed to ignore values that exceed my normal list dimensions
+    ncols = 81
+    ticks = (int(argv[1])) #returns a string of ticks from terminal, -1 to make only '50' iterations
+
+    coordinates = argv[2:] # returns a string of 'coordinates from terminal'
+    grid = [[0] * ncols for i in range(nrows)] # makes grid, good
+    print_grid(grid, nrows, ncols) # checks string grid, good
+    initiate(coordinates, grid, nrows, ncols) #forms starting coordinates, good
+    print_grid(grid, nrows, ncols) #checks starting coordinates, good
+    new_grid = make_move(grid, nrows, ncols) # Makes decisions, good for first iteration
+    print_grid(new_grid, nrows, ncols) # check decisions, good
+    while ticks > 1:    #while loop for iterations
+        new_grid = make_move(new_grid, nrows, ncols)
+        print_grid(new_grid, nrows, ncols)
+        ticks -= 1
 
 main(*argv)
-#50 14:40 15:42 16:39 16:40 16:43 16:44 16:45
-"""
-n = [[rows - 1] [cols -1], [rows - 1] [cols],  [rows -1] [cols+1],
-    [rows] [cols -1],      [rows * 0] [cols * 0], [rows] [cols+1],
-    [rows + 1] [cols -1], [rows + 1 ] [cols], [rows + 1] [cols+1]]
-for i, o in enumerate(n):
-    for j, k in enumerate(o):
-        s += new_grid[i][j]
-    print(s)
-"""
