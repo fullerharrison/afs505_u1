@@ -23,45 +23,32 @@ def neighbor(new_grid,rows, cols):
     #print(row, col)
     for i in range(rows):
         for j in range(cols):
-            on_count = (new_grid[i-1][j-1]+ new_grid[i-1][j] + new_grid[i-1][j+1] +
-                        new_grid[i][j -1] + new_grid[i][j+1]+
-                        new_grid[i+1][j-1] + new_grid[i +1][j] + new_grid[i +1][j+1])
-    print(on_count)
-
-    """
-    n = [[rows - 1] [cols -1], [rows - 1] [cols],  [rows -1] [cols+1],
-        [rows] [cols -1],      [rows * 0] [cols * 0], [rows] [cols+1],
-        [rows + 1] [cols -1], [rows + 1 ] [cols], [rows + 1] [cols+1]]
-    for i, o in enumerate(n):
-        for j, k in enumerate(o):
-            s += new_grid[i][j]
-        print(s)
-    """
+            on_count = (new_grid[i-1][j-1] + new_grid[i-1][j] + new_grid[i-1][j+1] + new_grid[i][j -1] + new_grid[i][j+1] + new_grid[i+1][j-1] + new_grid[i +1][j] + new_grid[i +1][j+1])
     return on_count
+
 def next_move(new_grid):
     ##
     for row_index,row in enumerate(new_grid): #
         for column_index, cell in enumerate(row): #
+            count = neighbor(new_grid,row_index, column_index)
+            on_count = 0
             # If alive already
             if new_grid[row_index][column_index] == 1:
-                    on_count = neighbor(new_grid,row_index, column_index)
-                    if on_count > 3:
-                        print(on_count)
-                        pass
-                        new_grid[row_index][column_index] = 0
-                    elif on_count < 2:
-                        print(on_count)
-                        new_grid[row_index][column_index] = 0
-                        pass
-                    else:
-                        new_grid[row_index][column_index] = 1
-                        print(on_count)
-            #print(new_grid)
-                #number = sum(new_grid[r][c])
-                #print(r,c)
-                #print(r,c)
-                #if sum(new_grid[row][col]) < 2: # enumerate()
-                #    new_grid[row_index][column_index] = 0
+                on_count += 1
+                if on_count > 3:
+                    new_grid[row_index][column_index] = 0
+                elif on_count < 2:
+                    new_grid[row_index][column_index] = 0
+                else:
+                    new_grid[row_index][column_index] = 1
+            elif new_grid[row_index][column_index] == 0:
+                on_count += 1
+                if on_count == 3:
+                    new_grid[row_index][column_index] = 1
+                else:
+                    new_grid[row_index][column_index] = 0
+            return new_grid
+    print(new_grid)
 #    return neighbor
 def display(new_grid):
     """Build a display to be printed for game.
@@ -104,8 +91,16 @@ def initiate(empty_grid, *argv):
 
 def main(*argv):
     empty_grid = [[0] * 80 for i in range(30)] # makes grid
-    #print(empty_grid)
     initiate(empty_grid, *argv)
 
 main(*argv)
 #50 14:40 15:42 16:39 16:40 16:43 16:44 16:45
+"""
+n = [[rows - 1] [cols -1], [rows - 1] [cols],  [rows -1] [cols+1],
+    [rows] [cols -1],      [rows * 0] [cols * 0], [rows] [cols+1],
+    [rows + 1] [cols -1], [rows + 1 ] [cols], [rows + 1] [cols+1]]
+for i, o in enumerate(n):
+    for j, k in enumerate(o):
+        s += new_grid[i][j]
+    print(s)
+"""
