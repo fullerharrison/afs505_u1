@@ -1,14 +1,19 @@
 from sys import argv
-def print_grid(empty_grid):
-    output = ""
-    for row in range(30) :
-        for cell in range(80):
-            output += empty_grid[row][cell]
-    output += '\n'
-
+def print_grid(grid, nrows, ncols):
+    string_grid = ""
+    for row in range(nrows) :
+        for cell in range(ncols):
+            if grid[row][cell] == 0:
+                string_grid += '-'
+            elif empty_grid[row][cell] == 1:
+                string_grid += 'X'
+        string_grid += '\n'
+    print(string_grid)
 def main(*argv):
-    empty_grid = [[0] * 80 for i in range(30)] # makes grid
-    print_grid(empty_grid)
+    nrows = 30
+    ncols = 80
+    grid = [[0] * ncols for i in range(nrows)] # makes grid
+    print_grid(grid, nrows, ncols)
 
 
 main(*argv)
