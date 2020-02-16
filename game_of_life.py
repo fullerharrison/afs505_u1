@@ -1,7 +1,8 @@
 """
 Authors: Harrison Fuller
 Reviewer: Joshua Freimark
-
+### Program runs explixitly on macOS
+<<<<<<< HEAD
 ###Program runs explicitly on macOS
 
 A Python script that performs Conway's game of life in a 80x30 array
@@ -10,6 +11,13 @@ A Python script that performs Conway's game of life in a 80x30 array
         :synopsis: The script will recieve user derections to turn
         'on' or 'off' cells in a grid using Moores neighborhood rules
         then print the evolution by 'ticks' also recieved by the user_
+=======
+.. Module:: Project01
+    :platform macOS
+        :synopsis: This program implements Conway's Game of Life. The script will recieve user derections to turn
+        'on' or 'off' cells in a gris using Moores neighborhood rules
+        then print the evolution by 'ticks' also recieved at the terminal.
+>>>>>>> a4d2da772c83bd49eb676f56191880fbc9586e8f
 .. moduleauthor:: Harrison Fuller <harrison.fuller@wsu.edu>
 .. moduleauthor:: Joshua Freimark
 """
@@ -112,7 +120,7 @@ def main(*argv):
     print_grid(grid, nrows, ncols) #checks starting coordinates, good
     new_grid = make_move(grid, nrows, ncols) # Makes decisions, good for first iteration
     print_grid(new_grid, nrows, ncols) # check decisions, good
-    while ticks > 1:    #while loop for iterations
+    while ticks > 0:    #while loop for iterations
         new_grid = make_move(new_grid, nrows, ncols)
         print_grid(new_grid, nrows, ncols)
         ticks -= 1
