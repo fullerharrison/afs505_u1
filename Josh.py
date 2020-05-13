@@ -1,4 +1,46 @@
-"""A Python script that attempts to replicate Conway's Game of Life.
+"""
+1. The program:
+    a. Accept the following command-line - python game_of_life.py 50 14:40 15:42 16:39 16:40 16:43 16:44 16:45
+        - False, accepting a user input instead
+    b. Executes to completion without presenting an error
+        - False, program crashes
+    c. Terminates with the pattern shown in requirements #8 above
+        - False, program crashes
+2. The program uses the following:
+    a. Command line arguements
+        - False, requires user input
+    b. a while Loop
+        - True,
+    c. if statements
+        - True, lots of them
+    d. lists or dictionaries
+        - True, uses both!
+3. The program does not use global variables and has at least one function
+        - True
+4. The program follows Sphinx docstring style documentation
+    a. The program has a header
+        - True
+    b. Each function has a documentation for each param
+        - True
+    c. Each declared variable has a comment
+        - True
+5. The printed grid is 30 x 80 with dashes for “off” cells and X for “on” cells
+        - True
+6. The program runs for as many“ticks”as indicated in the command-line
+        - False, crashes after the first iteration
+7. The program prints each time point (tick) to the screen following the rules above
+        - False, crashes after the first iteration, hard to test this one
+8. The program was reviewed by another student
+        - True, I am doing this now.
+
+
+
+
+
+
+
+
+A Python script that attempts to replicate Conway's Game of Life.
 
 ..  module:: Game_of_life.py
     :platform: Windows, Mac, Unix
