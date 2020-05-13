@@ -1,12 +1,23 @@
 """
 Authors: Harrison Fuller
 Reviewer: Joshua Freimark
+### Program runs explixitly on macOS
+<<<<<<< HEAD
+###Program runs explicitly on macOS
 
+A Python script that performs Conway's game of life in a 80x30 array
+.. Module:: Project01
+    :platform macOS
+        :synopsis: The script will recieve user derections to turn
+        'on' or 'off' cells in a grid using Moores neighborhood rules
+        then print the evolution by 'ticks' also recieved by the user_
+=======
 .. Module:: Project01
     :platform macOS
         :synopsis: This program implements Conway's Game of Life. The script will recieve user derections to turn
         'on' or 'off' cells in a gris using Moores neighborhood rules
         then print the evolution by 'ticks' also recieved at the terminal.
+>>>>>>> a4d2da772c83bd49eb676f56191880fbc9586e8f
 .. moduleauthor:: Harrison Fuller <harrison.fuller@wsu.edu>
 .. moduleauthor:: Joshua Freimark
 """
@@ -30,7 +41,7 @@ def neighbors(grid, row, cell):
 def make_move( grid, nrows, ncols):
     """
     Function iterates over grid and evaluates the neigbors of '0'/'1' values
-    :param grid,row, cell: arguements for iterating over grid
+    :param grid,nrows, ncells: arguements for iterating over grid
     :type lists, integers: Array of lists, and integer object from grid
 
     :return: the new grid
@@ -100,7 +111,7 @@ def main(*argv):
     """
     nrows = 31  # dimensions greater than needed to ignore values that exceed my normal list dimensions
     ncols = 81
-    ticks = (int(argv[1])) #returns a string of ticks from terminal, -1 to make only '50' iterations
+    ticks = (int(f"{argv[1]}")) #returns a string of ticks from terminal, -1 to make only '50' iterations
 
     coordinates = argv[2:] # returns a string of 'coordinates from terminal'
     grid = [[0] * ncols for i in range(nrows)] # makes grid, good
@@ -113,5 +124,6 @@ def main(*argv):
         new_grid = make_move(new_grid, nrows, ncols)
         print_grid(new_grid, nrows, ncols)
         ticks -= 1
+        print(ticks)
 
 main(*argv)
